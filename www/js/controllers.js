@@ -65,13 +65,14 @@ angular.module('starter.controllers', [])
 .controller('PerformanceCtrl', function($scope, $state, performanceData, $ionicLoading, $ionicPopup){
 
   $scope.saveData = function(person){
+    console.log("Saving////");
     var data = {performance_data: {data: {message: person.cooperMessage}}};
-    $ionicLoading.show({
-      template: 'Saving...'
-    });
+      $ionicLoading.show({
+        template: 'Saving...'
+      });
     performanceData.save(data, function(response){
       $ionicLoading.hide();
-      $scope.showAlert('Sucess', response.message);
+      $scope.showAlert('Success', response.message);
     }, function(error){
       $ionicLoading.hide();
       $scope.showAlert('Failure', error.statusText);
@@ -89,23 +90,47 @@ angular.module('starter.controllers', [])
      $ionicLoading.hide();
      $scope.showAlert('Failure', error.statusText);
    });
-  };
 
+  };
   $scope.showAlert = function(message, content) {
     var alertPopup = $ionicPopup.alert({
       title: message,
       template: content
     });
     alertPopup.then(function(res) {
-    // Place some action here if needed...
     });
   };
 })
 
-.controller('DataCtrl', function($scope, $stateParams){
+.controller('DataCtrl', function ($scope, $stateParams) {
   $scope.$on('$ionicView.enter', function () {
     $scope.savedDataCollection = $stateParams.savedDataCollection;
+    $scope.labels = getLabels($scope.savedDataCollection);
+    $scope.data = [];
+    angular.forEach($scope.labels, function(label){
+      $scope.data.push(getCount($scope.savedDataCollection, label));
+    });
+    $scope.radardata = [$scope.data];
   });
+
+
+  function getLabels(collection) {
+    var uniqueLabels = [];
+    for (i = 0; i < collection.length; i++) {
+      if (collection[i].data.message && uniqueLabels.indexOf(collection[i].data.message) === -1) {
+        uniqueLabels.push(collection[i].data.message);
+      }
+    }
+    return uniqueLabels;
+  }
+
+  function getCount(arr, value){
+    var count = 0;
+    angular.forEach(arr, function(entry){
+      count += entry.data.message == value ? 1 : 0;
+    });
+    return count;
+  }
 })
 
 .controller('TestController', function($scope) {
