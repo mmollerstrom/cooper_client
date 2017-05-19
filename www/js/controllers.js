@@ -54,16 +54,15 @@ angular.module('starter.controllers', [])
 
   $rootScope.$on('auth:login-success', function(ev, user) {
     $scope.currentUser = angular.extend(user, $auth.retrieveData('auth_headers'));
-
+  });
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system
     $timeout(function() {
       $scope.closeLogin();
     }, 1000);
-  });
 })
 
-.controller('PerformanceCtrl', function($scope, $state, performanceData, $ionicLoading, $ionicPopup, $state){
+.controller('PerformanceCtrl', function($scope, $state, performanceData, $ionicLoading, $ionicPopup){
 
   $scope.saveData = function(person){
     var data = {performance_data: {data: {message: person.cooperMessage}}};
@@ -76,7 +75,7 @@ angular.module('starter.controllers', [])
     }, function(error){
       $ionicLoading.hide();
       $scope.showAlert('Failure', error.statusText);
-    })
+    });
   };
 
   $scope.retrieveData = function(){
@@ -89,7 +88,7 @@ angular.module('starter.controllers', [])
    }, function(error){
      $ionicLoading.hide();
      $scope.showAlert('Failure', error.statusText);
-   })
+   });
   };
 
   $scope.showAlert = function(message, content) {

@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ng-token-auth', 'ngResource'])
-    .constant('API_URL', 'https://ca-cooper-api.herokuapp.com/api/v1')
+    .constant('API_URL', 'https://max-cooper-api.herokuapp.com/api/v1')
 
   .config(function ($authProvider, API_URL) {
     $authProvider.configure({
